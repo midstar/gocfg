@@ -88,7 +88,7 @@ Output will be:
 	Male true
 	Likes bananas false
 	key_dont_exist default value 5 
-	Hase key Foot size? false
+	Has key Foot size? false
 
 ## Author and license
 
