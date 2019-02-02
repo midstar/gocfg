@@ -75,6 +75,8 @@ func main() {
 	valueInt, _ = config.GetInt("key_dont_exist", 5)
 	fmt.Printf("key_dont_exist default value %d\n", valueInt)
 
+	fmt.Printf("Has key Foot size? %t\n", config.HasKey("Foot size"))
+
 }
 ```
 
@@ -86,6 +88,7 @@ Output will be:
 	Male true
 	Likes bananas false
 	key_dont_exist default value 5 
+	Hase key Foot size? false
 
 ## Author and license
 

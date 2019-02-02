@@ -55,7 +55,7 @@ just ignore this
 	}
 }
 
-func TestGetValues(t *testing.T) {
+func TestHasKey(t *testing.T) {
 	contents :=
 		`key1=874
 key2=invalid int
@@ -75,6 +75,18 @@ key3=3.14`
 		t.Fatalf("dontexist shall not exist")
 	}
 
+}
+
+func TestGetString(t *testing.T) {
+	contents :=
+		`key1=874
+key2=invalid int
+key3=3.14`
+	fullPath := createConfigFile(t, "TestGetString.cfg", contents)
+	config, err := LoadConfiguration(fullPath)
+	if err != nil {
+		t.Fatal(err)
+	}
 	// Test GetString
 	valueStr := config.GetString("key1", "default")
 	if valueStr != "874" {
@@ -84,6 +96,19 @@ key3=3.14`
 	valueStr = config.GetString("dontexist", "hello world")
 	if valueStr != "hello world" {
 		t.Fatalf("Expected default 'hello world' but was %s", valueStr)
+	}
+
+}
+
+func TestGetInt(t *testing.T) {
+	contents :=
+		`key1=874
+key2=invalid int
+key3=3.14`
+	fullPath := createConfigFile(t, "TestGetInt.cfg", contents)
+	config, err := LoadConfiguration(fullPath)
+	if err != nil {
+		t.Fatal(err)
 	}
 
 	// Test GetInt
@@ -119,6 +144,19 @@ key3=3.14`
 		t.Fatalf("Expected default 32 but was %d", valueInt)
 	}
 
+}
+
+func TestGetFloat(t *testing.T) {
+	contents :=
+		`key1=874
+key2=invalid int
+key3=3.14`
+	fullPath := createConfigFile(t, "TestGetFloat.cfg", contents)
+	config, err := LoadConfiguration(fullPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	// Test GetFloat
 	valueFloat, err := config.GetFloat("key1", 3)
 	if err != nil {
@@ -137,6 +175,9 @@ key3=3.14`
 	}
 
 	valueFloat, err = config.GetFloat("key3", 99)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if valueFloat != 3.14 {
 		t.Fatalf("Expected default 3.14 but was %f", valueFloat)
 	}
@@ -222,7 +263,7 @@ func createConfigFile(t *testing.T, name, contents string) string {
 	os.Remove(fullName) // Remove old if it exist
 	err := ioutil.WriteFile(fullName, []byte(contents), 0644)
 	if err != nil {
-		t.Fatalf("Unable to create configuratin file. Reason: %s", err)
+		t.Fatalf("Unable to create configuration file. Reason: %s", err)
 	}
 	return fullName
 }
